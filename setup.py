@@ -8,7 +8,7 @@ setup(
         "requests",
         "ipywidgets",
         "pandas",
-        "dotenv",
+        "python-dotenv",
     ], 
     entry_points={
         "console_scripts": [
