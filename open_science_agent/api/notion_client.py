@@ -33,3 +33,24 @@ class NotionClient:
             print(f"An error occurred: {err}")
             if 'response' in locals():
                 print(f"Response content: {response.content}")
+
+    def query_database(self, database_id, filter_criteria=None, sorts=None):
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+            "Notion-Version": "2022-06-28"
+        }
+        data = {}
+        if filter_criteria:
+            data["filter"] = filter_criteria
+        if sorts:
+            data["sorts"] = sorts
+        
+        response = requests.post(f"{self.BASE_URL}/databases/{database_id}/query", headers=headers, json=data)
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as http_err:
+            print(f"HTTP error occurred: {http_err}")
+            print(f"Response content: {response.content}")
+            raise
+        return response.json()

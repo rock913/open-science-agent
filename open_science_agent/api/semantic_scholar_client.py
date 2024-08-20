@@ -39,7 +39,7 @@ class SemanticScholarClient:
             raise
         return response.json()
 
-    def search_papers_by_relevance(self, query, offset=0, limit=20):
+    def search_papers_by_relevance(self, query, offset=0, limit=20, year='2020-'):
         headers = {"Authorization": f"Bearer {self.api_key}"}
         params = {
             "query": query,
@@ -48,8 +48,9 @@ class SemanticScholarClient:
             "fields": "corpusId,url,title,venue,publicationVenue,year,authors,externalIds,abstract,"
                       "referenceCount,citationCount,influentialCitationCount,isOpenAccess,openAccessPdf,"
                       "fieldsOfStudy,s2FieldsOfStudy,publicationTypes,publicationDate,journal,citationStyles,tldr",
-            "publicationTypes": "Review,JournalArticle",
-            "minCitationCount": 0
+            # "publicationTypes": "Review,JournalArticle",
+            "minCitationCount": 0,
+            "year":year
         }
         response = requests.get(f"{self.BASE_URL}/paper/search", headers=headers, params=params, timeout=self.timeout)
         try:

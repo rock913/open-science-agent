@@ -1,3 +1,4 @@
 requests
 ipywidgets 
 pandas
+dotenv

@@ -1,5 +1,12 @@
 import json
 
+def truncate_text(text, max_length=2000):
+    """Truncate text to a maximum length, preserving whole words."""
+    if len(text) <= max_length:
+        return text
+    return text[:max_length-3].rsplit(' ', 1)[0] + '...'
+
+
 def map_paper_to_notion_properties(paper):
     properties = {
         "Title": {
@@ -27,7 +34,7 @@ def map_paper_to_notion_properties(paper):
             "rich_text": [
                 {
                     "text": {
-                        "content": paper.get("journal", {}).get("name", "Unknown")
+                        "content": paper.get("journal", {}).get("name", "Unknown") if paper.get("journal") else "N/A"
                     }
                 }
             ]
@@ -39,7 +46,7 @@ def map_paper_to_notion_properties(paper):
             "rich_text": [
                 {
                     "text": {
-                        "content": paper.get("abstract") if paper.get("abstract") else "No abstract available."
+                        "content": truncate_text(paper.get("abstract")) if paper.get("abstract") else "No abstract available."
                     }
                 }
             ]
@@ -129,7 +136,7 @@ def map_paper_to_notion_properties(paper):
             "rich_text": [
                 {
                     "text": {
-                        "content": paper.get("tldr", {}).get("text", "N/A") if paper.get("tldr") else "N/A"
+                        "content": paper.get("tldr", "N/A").get("text", "N/A") if paper.get("tldr") else "N/A"
                     }
                 }
             ]
@@ -147,7 +154,7 @@ def map_paper_to_notion_properties(paper):
             "rich_text": [
                 {
                     "text": {
-                        "content": paper.get("publicationDate", "N/A")
+                        "content": paper.get("publicationDate", "N/A") if paper.get("publicationDate") else "N/A"
                     }
                 }
             ]
