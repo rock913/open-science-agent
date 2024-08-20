@@ -6,7 +6,10 @@ setup(
     packages=find_packages(),
     install_requires=[
         "requests",
-    ],
+        "ipywidgets",
+        "pandas",
+        "dotenv",
+    ], 
     entry_points={
         "console_scripts": [
             "open-science-agent=open_science_agent.cli.main:main",
