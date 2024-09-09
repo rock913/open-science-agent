@@ -6,6 +6,19 @@ def truncate_text(text, max_length=2000):
         return text
     return text[:max_length-3].rsplit(' ', 1)[0] + '...'
 
+def submit_paper_to_notion(paper, notion_client, NOTION_DATABASE_ID):  
+    properties = map_paper_to_notion_properties(paper)  
+    
+    # 创建过滤条件以检查 PaperId 是否已存在  
+    filter_criteria = {"property": "PaperId", "rich_text": {"equals": paper.get('paperId')}}  
+    query_results = notion_client.query_database(NOTION_DATABASE_ID, filter_criteria=filter_criteria)  
+
+    # 如果没有找到现有条目，则添加新条目  
+    if len(query_results['results']) == 0:  
+        feedback = notion_client.create_page(database_id=NOTION_DATABASE_ID, properties=properties)  
+        print('added:', paper.get("title", {}))  
+    else:  
+        print('already added:', paper.get("title", {}))  
 
 def map_paper_to_notion_properties(paper):
     properties = {
