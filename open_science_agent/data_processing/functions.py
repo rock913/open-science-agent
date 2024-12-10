@@ -35,7 +35,7 @@ def map_paper_to_notion_properties(paper):
             "rich_text": [
                 {
                     "text": {
-                        "content": ", ".join([author["name"] for author in paper.get("authors", [])])
+                        "content": truncate_text(", ".join([author["name"] for author in paper.get("authors", [])]))
                     }
                 }
             ]
